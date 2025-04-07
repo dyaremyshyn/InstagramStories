@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StoryListView: View {
     @State var viewModel = StoryListViewModel()
-    @State var show = false
+    @State private var show = false
     
     var body: some View {
         ZStack {
@@ -18,12 +18,22 @@ struct StoryListView: View {
                     LazyHStack {
                         ForEach(viewModel.stories) { story in
                             StoryCellView(story: story)
+                                .onTapGesture {
+                                    viewModel.selectedStory = story
+                                    show = true
+                                }
+                                .onAppear() {
+                                    viewModel.loadMoreStories(ifNeededFor: story.id)
+                                }
                         }
                     }
                     .padding(.horizontal)
                 }
             }
         }
+        .fullScreenCover(isPresented: $show, content: {
+            StoryDetailView(viewModel: viewModel.buildViewModel())
+        })
     }
 }
 

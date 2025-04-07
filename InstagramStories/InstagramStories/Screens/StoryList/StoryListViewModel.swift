@@ -26,6 +26,12 @@ import Combine
             .sink(receiveValue: seenStoryUpdated)
             .store(in: &subscriptions)
     }
+    
+    func loadMoreStories(ifNeededFor id: Int) {
+        if id == stories.last?.id {
+            loadMoreStories()
+        }
+    }
         
     func loadMoreStories() {
         guard !pages.isEmpty else { return }
