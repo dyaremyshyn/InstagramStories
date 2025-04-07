@@ -12,18 +12,7 @@ struct StoryCellView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: story.profilePictureURL)) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .mediumSize()
-                        .clipShape(.circle)
-                } else {
-                    Circle().fill(Color.gray)
-                        .mediumSize()
-                }
-            }
+            ProfileImage(imageUrl: story.profilePictureURL)
             .overlay(Circle().stroke(
                 story.isSeen ?
                 AnyShapeStyle(Color.gray) :

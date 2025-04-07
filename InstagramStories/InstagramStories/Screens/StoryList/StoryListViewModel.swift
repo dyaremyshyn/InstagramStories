@@ -9,8 +9,8 @@ import Foundation
 
 @Observable class StoryListViewModel {
     var stories: [Story] = []
-    private var pages: [[Story]] = []
-    private var currentPageIndex: Int = 0
+    @ObservationIgnored private var pages: [[Story]] = []
+    @ObservationIgnored private var currentPageIndex: Int = 0
     @ObservationIgnored @Injected(\.userReaderService) private var userReaderService
     @ObservationIgnored @Injected(\.persistenceService) private var persistenceService
     var showErrorToast: Bool = false

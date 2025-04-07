@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StoryListView: View {
     @State var viewModel = StoryListViewModel()
+    @State var show = false
     
     var body: some View {
         ZStack {
