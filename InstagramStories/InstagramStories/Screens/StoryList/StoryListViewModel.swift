@@ -12,10 +12,12 @@ import Foundation
     private var pages: [[Story]] = []
     private var currentPageIndex: Int = 0
     @ObservationIgnored @Injected(\.userReaderService) private var userReaderService
+    @ObservationIgnored @Injected(\.persistenceService) private var persistenceService
     var showErrorToast: Bool = false
     
     init() {
         loadData()
+        loadMoreStories()
     }
     
     private func loadData() {
@@ -27,4 +29,18 @@ import Foundation
             showErrorToast = true
         }
     }
+    
+    func loadMoreStories() {
+        guard !pages.isEmpty else { return }
+        let page = pages[currentPageIndex]
+        let updatedPage = page.map { story -> Story in
+            var copy = story
+            copy.isSeen = persistenceService.isSeen(story.id)
+            copy.isLiked = persistenceService.isLiked(story.id)
+            return copy
+        }
+        stories.append(contentsOf: updatedPage)
+        currentPageIndex = (currentPageIndex + 1) % pages.count
+    }
+
 }

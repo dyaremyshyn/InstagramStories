@@ -27,6 +27,16 @@ class PersistenceService: Persistence {
         UserDefaults.standard.set(Array(liked), forKey: likedKey)
     }
     
+    func isSeen(_ storyId: Int) -> Bool {
+        let seen = getSeenStories()
+        return seen.contains(storyId)
+    }
+    
+    func isLiked(_ storyId: Int) -> Bool {
+        let liked = getLikedStories()
+        return liked.contains(storyId)
+    }
+    
     private func getSeenStories() -> Set<Int> {
         let array = UserDefaults.standard.array(forKey: seenKey) as? [Int] ?? []
         return Set(array)
