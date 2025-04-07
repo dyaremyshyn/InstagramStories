@@ -9,10 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
+        NavigationView {
             StoryListView()
-                .navigationTitle("For You")
-                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Instagram Stories")
         }
     }
 }

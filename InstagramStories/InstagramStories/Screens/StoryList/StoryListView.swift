@@ -13,7 +13,8 @@ struct StoryListView: View {
     
     var body: some View {
         ZStack {
-            VStack{
+            Color.black.opacity(0.05).ignoresSafeArea()
+            ScrollView {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack {
                         ForEach(viewModel.stories) { story in
@@ -28,12 +29,13 @@ struct StoryListView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .padding(.top)
                 }
             }
         }
-        .fullScreenCover(isPresented: $show, content: {
+        .fullScreenCover(isPresented: $show) {
             StoryDetailView(viewModel: viewModel.buildViewModel())
-        })
+        }
     }
 }
 
