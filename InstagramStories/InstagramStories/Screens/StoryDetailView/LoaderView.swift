@@ -24,9 +24,9 @@ struct LoaderView: View {
         }
         .onReceive(time) { _ in
             seconds += 0.1
-            if seconds <= 10 {
+            if seconds <= 5 { // 5 seconds
                 let screenWidth = UIScreen.main.bounds.width
-                self.width = screenWidth * (seconds / 10)
+                self.width = screenWidth * (seconds / 5)
             } else {
                 show = false
             }
