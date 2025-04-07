@@ -6,15 +6,22 @@
 //
 
 import Foundation
+import Combine
 
 class PersistenceService: Persistence {
     private let seenKey = "seenStories"
     private let likedKey = "likedStories"
     
+    private let seenStoryUpdatedSubject = PassthroughSubject<Int, Never>()
+    var seenStoryUpdatedPublisher: AnyPublisher<Int, Never> {
+        seenStoryUpdatedSubject.eraseToAnyPublisher()
+    }
+    
     func seen(_ storyId: Int) {
         var seen = getSeenStories()
         seen.insert(storyId)
         UserDefaults.standard.set(Array(seen), forKey: seenKey)
+        seenStoryUpdatedSubject.send(storyId)
     }
     
     func toggleLike(_ storyId: Int) {

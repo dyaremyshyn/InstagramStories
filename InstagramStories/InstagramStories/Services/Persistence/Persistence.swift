@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Combine
 
 protocol Persistence {
+    var seenStoryUpdatedPublisher: AnyPublisher<Int, Never> { get }
+    
     func seen(_ storyId: Int)
     func toggleLike(_ storyId: Int)
     func isSeen(_ storyId: Int) -> Bool
