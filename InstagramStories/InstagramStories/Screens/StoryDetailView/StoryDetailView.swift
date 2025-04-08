@@ -10,6 +10,7 @@ import SwiftUI
 struct StoryDetailView: View {
     @State var viewModel: StoryDetailViewModel
     @State var show: Bool = true
+    @State private var dragOffset: CGFloat = 0
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -53,6 +54,23 @@ struct StoryDetailView: View {
         .onChange(of: show) { _, newValue in
             if !show { dismiss() }
         }
+        .offset(y: dragOffset)
+        .gesture(DragGesture()
+            .onChanged { value in
+                if value.translation.height > 0 {
+                    dragOffset = value.translation.height
+                }
+            }
+            .onEnded { _ in
+                if dragOffset > 150 {
+                    dismiss()
+                } else {
+                    withAnimation {
+                        dragOffset = 0
+                    }
+                }
+            }
+        )
     }
 }
 
