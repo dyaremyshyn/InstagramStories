@@ -10,7 +10,6 @@ import Combine
 
 @Observable class StoryListViewModel {
     var stories: [Story] = []
-    @ObservationIgnored var selectedStory: Story!
     @ObservationIgnored private var pages: [[Story]] = []
     @ObservationIgnored private var currentPageIndex: Int = 0
     @ObservationIgnored @Injected(\.userReaderService) private var userReaderService
@@ -46,8 +45,8 @@ import Combine
         currentPageIndex = (currentPageIndex + 1) % pages.count
     }
 
-    func buildViewModel() -> StoryDetailViewModel {
-        StoryDetailViewModel(story: selectedStory)
+    func buildViewModel(story: Story) -> StoryDetailViewModel {
+        StoryDetailViewModel(story: story)
     }
 }
 

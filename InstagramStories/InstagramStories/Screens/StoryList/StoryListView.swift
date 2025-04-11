@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StoryListView: View {
     @State var viewModel = StoryListViewModel()
-    @State private var show = false
+    @State private var presentedView: AnyView?
     
     var body: some View {
         ZStack {
@@ -20,8 +20,7 @@ struct StoryListView: View {
                         ForEach(viewModel.stories) { story in
                             StoryCellView(story: story)
                                 .onTapGesture {
-                                    viewModel.selectedStory = story
-                                    show = true
+                                    presentedView = AnyView(StoryDetailView(viewModel: viewModel.buildViewModel(story: story)))
                                 }
                                 .onAppear() {
                                     viewModel.loadMoreStories(ifNeededFor: story.id)
@@ -33,9 +32,7 @@ struct StoryListView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $show) {
-            StoryDetailView(viewModel: viewModel.buildViewModel())
-        }
+        .fullScreenCover($presentedView)
     }
 }
 
